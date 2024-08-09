@@ -14,40 +14,31 @@ import {
 
 import ProviderEntity from '../../providers/entity/provider.entity';
 
-@Entity({ name: 'site_config' })
-export default class MainEntity extends BaseEntity {
+export enum SettingTypes {
+  TEXT = 'text',
+  IMAGE = 'image',
+}
+
+@Entity({ name: 'settings' })
+export class SettingEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
+  @Column({ unique: true })
+  key: string;
 
   @Column()
-  title: string;
+  value: string;
 
-  @Column()
-  url: string;
+  @Column({
+    type: 'enum',
+    enum: SettingTypes,
+    default: SettingTypes.TEXT,
+  })
+  type: string;
 
-  @Column()
-  keyword: string;
-
-  @Column({ type: 'text' })
+  @Column({ nullable: true })
   description: string;
-
-  @Column({ type: 'varchar' })
-  slogan: string;
-
-  @Column({ type: 'text' })
-  header_about: string;
-
-  @Column({ type: 'text' })
-  footer_about: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  favicon: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  logo: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -59,7 +50,7 @@ export default class MainEntity extends BaseEntity {
   deleted_at: Date;
 
   // Relation
-  @OneToOne(() => ProviderEntity)
+  @ManyToOne(() => ProviderEntity)
   @JoinColumn()
   provider: ProviderEntity;
 }

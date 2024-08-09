@@ -21,7 +21,7 @@ export class CreateDto {
   @MinLength(1, { message: 'Name must be at least 1 characters long' })
   @MaxLength(127, { message: 'Name can be max 255 characters long' })
   @Transform(({ value }) => value.trim())
-  name: string;
+  key: string;
 
   // ---------------------- //
 }

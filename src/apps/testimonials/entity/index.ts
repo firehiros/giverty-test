@@ -3,8 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  OneToOne,
-  ManyToMany,
+  OneToMany,
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
@@ -14,25 +13,25 @@ import {
 import ProviderEntity from '../../providers/entity/provider.entity';
 import PhotoEntity from '../../photos/entity';
 
-@Entity({ name: 'system_config' })
-export class SystemConfigEntity extends BaseEntity {
+@Entity({ name: 'services' })
+export default class MainEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  app_name: string;
+  name: string;
 
-  @Column()
-  admin_email: string;
+  @Column({ type: 'text' })
+  person_name: string;
 
-  @Column({ nullable: true })
-  timezone: string;
+  @Column({ type: 'text' })
+  person_photo: string;
 
-  @Column({ nullable: true })
-  google_id: string;
+  @Column({ type: 'text' })
+  person_title: string;
 
-  @Column({ nullable: true })
-  google_key: string;
+  @Column({ type: 'text' })
+  testimonial: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -44,7 +43,9 @@ export class SystemConfigEntity extends BaseEntity {
   deleted_at: Date;
 
   // Relation
-
   @ManyToOne(() => ProviderEntity)
   provider: ProviderEntity;
+
+  @OneToMany(() => PhotoEntity, (photo) => photo.service)
+  photos: PhotoEntity[];
 }

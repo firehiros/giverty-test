@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // Source
 import { typeOrmConfig } from './configs/db.config';
 import ProviderModule from './apps/providers/module';
-import SiteConfigModule from './apps/site_config/module';
-import SystemConfigModule from './apps/system_config/module';
+import SettingModule from './apps/settings/module';
+// import SystemConfigModule from './apps/system_config/module';
 
 @Module({
   imports: [
@@ -15,8 +15,8 @@ import SystemConfigModule from './apps/system_config/module';
       isGlobal: true,
     }),
     ProviderModule,
-    SiteConfigModule,
-    SystemConfigModule,
+    SettingModule,
+    // SystemConfigModule,
   ],
   controllers: [],
   providers: [],

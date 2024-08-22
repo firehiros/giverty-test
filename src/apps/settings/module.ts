@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Source
-import { SettingEntity } from './entity/index.entity';
+import SettingEntity from './entity/index.entity';
 import MainService from './service';
 import MainController from './controller';
 

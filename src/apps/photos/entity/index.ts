@@ -9,12 +9,10 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-import ServiceEntity from "../../services/entity"
-
 export enum FileTypes {
-    IMAGE = "image",
-    DOCUMENT = "document",
-    VIDEO = "video",
+  IMAGE = 'image',
+  DOCUMENT = 'document',
+  VIDEO = 'video',
 }
 
 @Entity({ name: 'photos' })
@@ -26,19 +24,19 @@ export default class MainEntity extends BaseEntity {
   name: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: FileTypes,
-    default: FileTypes.IMAGE
+    default: FileTypes.IMAGE,
   })
   type: string;
 
-  @Column({ type: "varchar", length:255 })
+  @Column({ type: 'varchar', length: 255 })
   url: string;
 
-  @Column({ type: "text" })
+  @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: "varchar", length:255 })
+  @Column({ type: 'varchar', length: 255 })
   tags: string;
 
   @CreateDateColumn()
@@ -50,6 +48,6 @@ export default class MainEntity extends BaseEntity {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @ManyToOne(() => ServiceEntity, (service) => service.photos)
-    service: ServiceEntity
+  // @ManyToOne(() => ServiceEntity, (service) => service.photos)
+  //   service: ServiceEntity
 }

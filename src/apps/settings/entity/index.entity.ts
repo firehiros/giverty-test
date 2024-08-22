@@ -20,7 +20,7 @@ export enum SettingTypes {
 }
 
 @Entity({ name: 'settings' })
-export class SettingEntity extends BaseEntity {
+export default class SettingEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

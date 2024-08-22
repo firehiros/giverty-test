@@ -13,7 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 // Source
 import { LIMIT_PAGE } from '../../configs/constant.config';
 import { CreateDto, UpdateDto } from './dto';
-import { SettingEntity } from './entity/index.entity';
+import SettingEntity from './entity/index.entity';
 
 // Sample Data
 import * as SampleData from '../../../test/data/settings.json';
@@ -37,8 +37,6 @@ class MainService {
     try {
       const { page = 1, limit } = query;
       const skip = (page - 1) * LIMIT_PAGE;
-
-      console.log('PRINT', { page, limit });
 
       const [result, total] = await this.mainRepo.findAndCount({
         order: { key: 'DESC' },

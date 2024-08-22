@@ -11,30 +11,23 @@ import {
 } from 'typeorm';
 
 import ProviderEntity from '../../providers/entity/provider.entity';
-import PhotoEntity from '../../photos/entity';
 
-export enum ServiceTypes {
-  HIKING = 'hiking',
-  RUNNING = 'running',
-}
-
-@Entity({ name: 'services' })
+@Entity({ name: 'testimonial' })
 export default class MainEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-
-  @Column({
-    type: 'enum',
-    enum: ServiceTypes,
-    default: ServiceTypes.HIKING,
-  })
-  type: string;
+  @Column({ type: 'text' })
+  person_name: string;
 
   @Column({ type: 'text' })
-  description: string;
+  person_photo: string;
+
+  @Column({ type: 'text' })
+  person_title: string;
+
+  @Column({ type: 'text' })
+  content: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -46,10 +39,9 @@ export default class MainEntity extends BaseEntity {
   deleted_at: Date;
 
   // Relation
-
   @ManyToOne(() => ProviderEntity)
   provider: ProviderEntity;
 
-  @OneToMany(() => PhotoEntity, (photo) => photo.service)
-  photos: PhotoEntity[];
+  // @OneToMany(() => PhotoEntity, (photo) => photo.service)
+  // photos: PhotoEntity[];
 }

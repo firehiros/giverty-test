@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './configs/db.config';
 import ProviderModule from './apps/providers/module';
 import SettingModule from './apps/settings/module';
+import ServiceModule from './apps/services/module';
+import TestimonialModule from './apps/testimonials/module';
 // import SystemConfigModule from './apps/system_config/module';
 
 @Module({
@@ -16,6 +18,8 @@ import SettingModule from './apps/settings/module';
     }),
     ProviderModule,
     SettingModule,
+    ServiceModule,
+    TestimonialModule,
     // SystemConfigModule,
   ],
   controllers: [],

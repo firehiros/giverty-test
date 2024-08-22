@@ -10,10 +10,10 @@ import {
 } from 'typeorm';
 
 // Source
-import ServiceEntity from 'src/apps/services/entity';
+import ServiceEntity from 'src/apps/services/entity/index.entity';
 
 @Entity({ name: 'providers' })
-class MainEntity extends BaseEntity {
+export default class ProviderEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -66,5 +66,3 @@ class MainEntity extends BaseEntity {
   // @OneToMany(() => ServiceEntity, (service) => service.provider)
   // services: ServiceEntity[];
 }
-
-export default MainEntity;

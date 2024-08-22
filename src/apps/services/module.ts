@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Source
-import ServiceEntity from './entity';
+import ServiceEntity from './entity/index.entity';
 import MainService from './service';
 import MainController from './controller';
 
@@ -11,5 +11,4 @@ import MainController from './controller';
   controllers: [MainController],
   providers: [MainService],
 })
-  
 export default class MainModule {}

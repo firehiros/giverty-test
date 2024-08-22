@@ -13,7 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 // Source
 import { LIMIT_PAGE } from '../../configs/constant.config';
 import { CreateDto, UpdateDto } from './dto';
-import ServiceEntity from './entity';
+import PhotoEntity from './entity';
 
 // Sample Data
 import * as providerSample from '../../../test/data/provider.json';
@@ -21,8 +21,8 @@ import * as providerSample from '../../../test/data/provider.json';
 @Injectable()
 class MainService {
   constructor(
-    @InjectRepository(ServiceEntity)
-    private readonly serviceRepo: Repository<ServiceEntity>,
+    @InjectRepository(PhotoEntity)
+    private readonly serviceRepo: Repository<PhotoEntity>,
   ) {}
 
   async onModuleInit() {
@@ -35,11 +35,10 @@ class MainService {
 
   async findAll(query) {
     try {
-
       const { page, limit } = query;
       const skip = (page - 1) * LIMIT_PAGE;
 
-      console.log("PRINT", { page, limit })
+      console.log('PRINT', { page, limit });
 
       const [result, total] = await this.serviceRepo.findAndCount({
         order: { name: 'DESC' },
@@ -96,4 +95,4 @@ class MainService {
   }
 }
 
-export default MainService
+export default MainService;

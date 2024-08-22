@@ -3,35 +3,37 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  OneToMany,
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  JoinColumn,
 } from 'typeorm';
 
 import ProviderEntity from '../../providers/entity/provider.entity';
-import PhotoEntity from '../../photos/entity';
 
 @Entity({ name: 'services' })
-export default class MainEntity extends BaseEntity {
+export default class ServiceEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ unique: true })
+  key: string;
+
   @Column()
-  name: string;
+  title: string;
+
+  @Column({ nullable: true })
+  sub_title: string;
+
+  @Column({ nullable: true })
+  image: string;
 
   @Column({ type: 'text' })
-  person_name: string;
+  content: string;
 
-  @Column({ type: 'text' })
-  person_photo: string;
-
-  @Column({ type: 'text' })
-  person_title: string;
-
-  @Column({ type: 'text' })
-  testimonial: string;
+  @Column({ nullable: true })
+  tag: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -44,8 +46,6 @@ export default class MainEntity extends BaseEntity {
 
   // Relation
   @ManyToOne(() => ProviderEntity)
+  @JoinColumn()
   provider: ProviderEntity;
-
-  @OneToMany(() => PhotoEntity, (photo) => photo.service)
-  photos: PhotoEntity[];
 }

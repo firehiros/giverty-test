@@ -65,6 +65,13 @@ export class User extends BaseEntity {
   country: string;
 
   @Column({
+    name: 'postcode',
+    type: 'varchar',
+    nullable: true,
+  })
+  postcode: string;
+
+  @Column({
     name: 'region',
     type: 'varchar',
     nullable: true,
@@ -79,25 +86,18 @@ export class User extends BaseEntity {
   city: string;
 
   @Column({
-    name: 'district',
-    type: 'varchar',
-    nullable: true,
-  })
-  district: string;
-
-  @Column({
-    name: 'street',
+    name: 'address',
     type: 'varchar',
     nullable: true,
   })
   address: string;
 
   @Column({
-    name: 'postcode',
+    name: 'building',
     type: 'varchar',
     nullable: true,
   })
-  postcode: string;
+  building: string;
 
   @Column({
     name: 'phone_code',
@@ -112,20 +112,6 @@ export class User extends BaseEntity {
     nullable: true,
   })
   phoneNumber: string;
-
-  @Column({
-    name: 'apartment',
-    type: 'varchar',
-    nullable: true,
-  })
-  apartment: string;
-
-  @Column({
-    name: 'street_no',
-    type: 'varchar',
-    nullable: true,
-  })
-  streetNo: string;
 
   @Column({
     name: 'is_verified',

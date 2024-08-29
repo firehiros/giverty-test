@@ -10,7 +10,12 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-// Entity
+// Resource
+import { StringUtil } from '@utils/index';
+import { encryptPassword, isPasswordMatch } from '@utils/index';
+import { TwoFaDto } from '@apps/auth/dto/two-fa.dto';
+import { TwoFactorService } from '@services/two-factor/2fa.service';
+import { MESSAGES, USER_ERROR, EMAIL_TITLE } from '@messages/index';
 import { User } from '@apps/user/entities/user.entity';
 
 // Services
@@ -19,29 +24,20 @@ import { User } from '@apps/user/entities/user.entity';
 //   SendEmailService,
 // } from '@services/send-email/send-email.service';
 // import { AuthService } from '../auth/auth.service';
-import { TwoFactorService } from '@services/two-factor/2fa.service';
-import { MESSAGES, USER_ERROR, EMAIL_TITLE } from '@messages/index';
 
 // DTO
 import { SignInDto } from '../auth/dto/signin.dto';
 import { SendMailDto } from './dto/send-mail.dto';
-import { ChangeEmailDto } from './dto/change-email.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { SignUpDto } from '../auth/dto/signup.dto';
-
-// Share
-import { StringUtil } from '@utils/index';
-import { encryptPassword, isPasswordMatch } from '@utils/index';
-
-import { TwoFaDto } from '@apps/auth/dto/two-fa.dto';
 
 @Injectable()
 export class ProfileService implements OnModuleInit {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     // private readonly sendEmailService: SendEmailService,
-    private readonly jwtService: JwtService,
+    // private readonly jwtService: JwtService,
     // @InjectRepository(Language)
     // private readonly languageRepository: Repository<Language>,
     // @Inject(forwardRef(() => AuthService))
@@ -49,27 +45,39 @@ export class ProfileService implements OnModuleInit {
     private readonly twoFactorService: TwoFactorService,
   ) {}
 
-  private sanitizeUser(user: User): Partial<User> {
+  async onModuleInit() {}
+
+  private serialize(user: User): Partial<User> {
     return {
       id: user.id,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      dateOfBirth: user.dateOfBirth,
+      gender: user.gender,
+      country: user.country,
+      postcode: user.postcode,
+      region: user.region,
+      city: user.city,
+      address: user.address,
+      building: user.building,
+      phoneCode: user.phoneCode,
+      phoneNumber: user.phoneNumber,
     };
   }
 
-  async onModuleInit() {}
-
-  async find(userId: string) {
+  async find(user: User) {
     try {
-      const userFound = await this.userRepository.findOneBy({ id: userId });
+      const userFound = await this.userRepository.findOneBy({ id: user.id });
+
       if (!userFound) {
         throw new HttpException(
           USER_ERROR.USER_NOT_FOUND,
           HttpStatus.BAD_REQUEST,
         );
       }
-      let result: any = this.sanitizeUser(userFound);
 
-      return result;
+      return this.serialize(userFound);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
@@ -83,7 +91,6 @@ export class ProfileService implements OnModuleInit {
     return result;
   }
 
-  //api change email
   async changePassword(userId: string, changePasswordDto: ChangePasswordDto) {
     try {
       const user = await this.userRepository.findOneBy({

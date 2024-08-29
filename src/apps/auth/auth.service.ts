@@ -35,6 +35,7 @@ import { User } from '../user/entities/user.entity';
 // import { TwoFaDto } from './dto/two-fa.dto';
 // import { RecaptchaService } from '@share/services/recaptcha/recaptcha.service';
 import { AUTH_ERROR, USER_ERROR } from '@messages/index';
+import { LOGIN_EXPIRED_MINUTES } from '@config/constants';
 // import { ForgotPasswordDto } from './dto/forgotPassword.dto';
 // import { SendMailDto } from '../user/dto/send-mail.dto';
 // import { EmailType } from '@share/enum/email-type.enum';
@@ -85,16 +86,17 @@ export class AuthService {
       //     id: user.id,
       //   };
       // }
-      const token = await this.signPayload(pick(user, ['id', 'email']));
+      const userData = pick(user, ['id', 'email']);
+      const token = await this.signPayload(userData);
 
       response.cookie('token', token, {
-        maxAge: 900000,
+        maxAge: LOGIN_EXPIRED_MINUTES * 60 * 1000,
         httpOnly: true,
         secure: true,
       });
 
-      response.cookie('user', btoa(JSON.stringify(user)), {
-        maxAge: 900000,
+      response.cookie('user', btoa(JSON.stringify(userData)), {
+        maxAge: LOGIN_EXPIRED_MINUTES * 60 * 1000,
         secure: true,
       });
 
@@ -113,7 +115,6 @@ export class AuthService {
 
   async logout(response: Response): Promise<any> {
     try {
-      console.log('LOGOUTTT');
       response.cookie('token', '', { expires: new Date() });
       response.cookie('user', '', { expires: new Date() });
 
@@ -228,8 +229,6 @@ export class AuthService {
       // } else {
       //   await this.redisService.set(key, 'true');
       // }
-
-      console.log('TOKEEEN', payload);
 
       return token;
     } catch (error) {

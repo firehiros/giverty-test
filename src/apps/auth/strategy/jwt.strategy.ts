@@ -24,14 +24,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any, done: VerifiedCallback) {
     try {
-      // const key = `${REDIS_PREFIX}${payload.id}`;
-      // const check = await this.redisService.get(key);
-      // if (!check) {
-      //   return done(
-      //     new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED),
-      //     false,
-      //   );
-      // }
       return done(null, payload);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);

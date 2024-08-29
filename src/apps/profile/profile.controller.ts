@@ -16,13 +16,12 @@ import {
 } from '@nestjs/common';
 
 // Services
-import { ProfileService } from './service';
+import { ProfileService } from './profile.service';
 
 // Guards
 
 // DTO
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ChangeEmailDto } from './dto/change-email.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
 // Entities:
@@ -40,10 +39,11 @@ export class ProfileController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async get(@GetUser() user: User) {
-    return this.profileService.find(user.id);
+    console.log('GET USER', user);
+    return this.profileService.find(user);
   }
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
+  // @UsePipes(new ValidationPipe({ whitelist: true }))
   @UseGuards(AuthGuard('jwt'))
   @Patch()
   async update(@GetUser() user: User, @Body() updateData: UpdateUserDto) {

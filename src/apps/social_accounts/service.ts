@@ -11,7 +11,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 // Source
-import { LIMIT_PAGE } from '../../configs/constant.config';
+import { LIMIT_PAGE } from '../../config/constants';
 import { CreateDto, UpdateDto } from './dto';
 import ServiceEntity from './entity';
 
@@ -35,11 +35,10 @@ class MainService {
 
   async findAll(query) {
     try {
-
       const { page, limit } = query;
       const skip = (page - 1) * LIMIT_PAGE;
 
-      console.log("PRINT", { page, limit })
+      console.log('PRINT', { page, limit });
 
       const [result, total] = await this.serviceRepo.findAndCount({
         order: { name: 'DESC' },
@@ -96,4 +95,4 @@ class MainService {
   }
 }
 
-export default MainService
+export default MainService;

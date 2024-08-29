@@ -3,12 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Source
-import { typeOrmConfig } from './configs/db.config';
+import { typeOrmConfig } from './config/db';
+import AuthModule from '@apps/auth/auth.module';
+import ProfileModule from '@apps/profile/module';
 import ProviderModule from './apps/providers/module';
 import SettingModule from './apps/settings/module';
 import ServiceModule from './apps/services/module';
 import TestimonialModule from './apps/testimonials/module';
-// import SystemConfigModule from './apps/system_config/module';
 
 @Module({
   imports: [
@@ -16,6 +17,8 @@ import TestimonialModule from './apps/testimonials/module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AuthModule,
+    ProfileModule,
     ProviderModule,
     SettingModule,
     ServiceModule,

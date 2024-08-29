@@ -11,7 +11,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 // Source
-import { LIMIT_PAGE } from '../../configs/constant.config';
+import { LIMIT_PAGE } from '../../config/constants';
 import { CreateDto, UpdateDto } from './dto';
 import PhotoEntity from './entity';
 

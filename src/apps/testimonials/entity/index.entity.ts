@@ -20,7 +20,7 @@ export default class MainEntity extends BaseEntity {
   @Column({ type: 'text' })
   person_name: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   person_photo: string;
 
   @Column({ type: 'text' })

@@ -103,6 +103,8 @@ export class ProfileService implements OnModuleInit {
           HttpStatus.BAD_REQUEST,
         );
 
+      await this.twoFactorService.validate(user.id, changePasswordDto.otpToken);
+
       const { newPassword, currentPassword } = changePasswordDto;
 
       if (!(await isPasswordMatch(currentPassword, user.password)))
@@ -118,26 +120,24 @@ export class ProfileService implements OnModuleInit {
         );
 
       const newHashedPassword = await encryptPassword(newPassword);
-      const { lastName: name, email: to } = user;
-      const dataPendingToSend: SendMailDto = {
-        type: `change-password`,
-        data: {
-          name,
-        },
-        to,
-        subject: EMAIL_TITLE.CHANGE_PASSWORD,
-      };
 
-      await this.twoFactorService.validate(user.id, changePasswordDto.otpToken);
       user.password = newHashedPassword;
 
       await this.userRepository.save(user);
 
+      // const { lastName: name, email: to } = user;
+      // const dataPendingToSend: SendMailDto = {
+      //   type: `change-password`,
+      //   data: {
+      //     name,
+      //   },
+      //   to,
+      //   subject: EMAIL_TITLE.CHANGE_PASSWORD,
+      // };
       // await this.sendMail(dataPendingToSend);
       // await this.authService.logout(userId);
 
       return {
-        dataPendingToSend,
         message: MESSAGES.PASSWORD_UPDATED,
       };
     } catch (e) {

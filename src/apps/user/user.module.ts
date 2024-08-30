@@ -34,4 +34,4 @@ import { EXPIRED_TIME } from './user.constant';
   providers: [UserService],
   exports: [UserService],
 })
-export class UserModule {}
+export default class UserModule {}

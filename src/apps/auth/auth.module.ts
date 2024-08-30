@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Resource
 import { JWT_CONFIG } from '@config/constants';
-import { UserModule } from '@apps/user/user.module';
+// import UserModule from '@apps/user/user.module';
 // import { RedisModule } from '@services/redis/redis.module';
+import { UserService } from '@apps/user/user.service';
 import { TwoFactorService } from '@services/two-factor/2fa.service';
 
 import { AuthController } from './auth.controller';
@@ -17,7 +18,7 @@ import { BasicStrategy } from './strategy/basic.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
-    UserModule,
+    // UserModule,
     PassportModule.register({ defaultStrategy: 'basic' }),
     JwtModule.register({
       secret: JWT_CONFIG.secret,
@@ -28,7 +29,7 @@ import { BasicStrategy } from './strategy/basic.strategy';
     // RedisModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, BasicStrategy, TwoFactorService],
+  providers: [AuthService, UserService, BasicStrategy, TwoFactorService],
   exports: [AuthService, PassportModule],
 })
 export default class MainModule {}

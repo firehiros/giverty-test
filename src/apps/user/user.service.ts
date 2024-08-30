@@ -54,7 +54,7 @@ export class UserService implements OnModuleInit {
 
   async list(dto: QueryTransactionDto): Promise<Pagination<User[]>> {
     try {
-      const { page, search } = dto;
+      const { page = 1, search } = dto;
       const skip = (page - 1) * LIMIT_PAGE;
 
       const query = this.userRepo.createQueryBuilder('users');

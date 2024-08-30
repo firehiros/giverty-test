@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/db';
 import AuthModule from '@apps/auth/auth.module';
 import ProfileModule from '@apps/profile/profile.module';
+import UserModule from '@apps/user/user.module';
 import ProviderModule from './apps/providers/module';
 import SettingModule from './apps/settings/module';
 import ServiceModule from './apps/services/module';
@@ -19,6 +20,7 @@ import TestimonialModule from './apps/testimonials/module';
     }),
     AuthModule,
     ProfileModule,
+    UserModule,
     ProviderModule,
     SettingModule,
     ServiceModule,

@@ -40,39 +40,39 @@ import { AuthGuard } from '@nestjs/passport';
 // import { UpdateCommissionDto } from 'src/affiliate/dto/update-commision.dto';
 // import { ChangeInvitationDto } from './dto/change-invitation.dto';
 
-@Controller()
+@Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseGuards(AuthGuard('basic'))
-  @Get('users')
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
   @HttpCode(200)
   async list(@Query() query: QueryTransactionDto) {
     return this.userService.list(query);
   }
 
-  @UseGuards(AuthGuard('basic'))
-  @Post('users')
+  @UseGuards(AuthGuard('jwt'))
+  @Post()
   @HttpCode(200)
   create(@Body() dto: CreateUserDto) {
     return this.userService.create(dto);
   }
 
-  @UseGuards(AuthGuard('basic'))
-  @Get('users/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
   @HttpCode(200)
   find(@Param('id') id: string) {
     return this.userService.find(id);
   }
 
-  @UseGuards(AuthGuard('basic'))
-  @Put('users/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateData: UpdateUserDto) {
     return this.userService.update(id, updateData);
   }
 
-  @UseGuards(AuthGuard('basic'))
-  @Delete('users/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':id')
   @HttpCode(200)
   delete(@Param('id') id: string) {
     return this.userService.remove(id);

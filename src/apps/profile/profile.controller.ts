@@ -43,7 +43,6 @@ export class ProfileController {
     return this.profileService.find(user);
   }
 
-  // @UsePipes(new ValidationPipe({ whitelist: true }))
   @UseGuards(AuthGuard('jwt'))
   @Patch()
   async update(@GetUser() user: User, @Body() updateData: UpdateUserDto) {
@@ -53,9 +52,9 @@ export class ProfileController {
   @UseGuards(AuthGuard('jwt'))
   @Put('change-password')
   async changePassword(
-    @GetUser() userId: string,
+    @GetUser() user: User,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    return this.profileService.changePassword(userId, changePasswordDto);
+    return this.profileService.changePassword(user.id, changePasswordDto);
   }
 }

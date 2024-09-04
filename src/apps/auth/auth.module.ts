@@ -13,7 +13,7 @@ import { TwoFactorService } from '@services/two-factor/2fa.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { User } from '../user/entities/user.entity';
-import { BasicStrategy } from './strategy/basic.strategy';
+import { BasicStrategy } from '@strategies/basic.strategy';
 
 @Module({
   imports: [

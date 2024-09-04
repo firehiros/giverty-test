@@ -39,7 +39,6 @@ export class ProfileController {
   @UseGuards(AuthGuard('jwt'))
   @Get()
   async get(@GetUser() user: User) {
-    console.log('GET USER', user);
     return this.profileService.find(user);
   }
 

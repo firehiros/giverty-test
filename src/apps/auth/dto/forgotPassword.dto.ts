@@ -16,10 +16,10 @@ export class ForgotPasswordDto {
   })
   @IsEmail({}, { message: MESSAGES.MSG_043('Email') })
   @MinLength(8, {
-    message: MESSAGES.MSG_003({ field: 'Email', minValue: 8 }),
+    message: MESSAGES.MSG_MIN_LENGTH({ field: 'Email', minValue: 8 }),
   })
   @MaxLength(127, {
-    message: MESSAGES.MSG_004({ field: 'Email', maxValue: 127 }),
+    message: MESSAGES.MSG_MAX_LENGTH({ field: 'Email', maxValue: 127 }),
   })
   @Transform(({ value }) => value.trim())
   email: string;

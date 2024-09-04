@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 
 config();
 
+export const MIN_PASSWORD_LENGTH = 6;
+export const MAX_PASSWORD_LENGTH = 35;
 export const LIMIT_PAGE = 25;
 export const LOGIN_EXPIRED_MINUTES = 10;
 export const BCRYPT_HASH_ROUND = 12;

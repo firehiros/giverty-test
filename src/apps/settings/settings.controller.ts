@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 // Source
-import MainService from './service';
+import MainService from './settings.service';
 
 @Controller('settings')
 class MainController {

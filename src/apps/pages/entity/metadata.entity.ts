@@ -12,11 +12,11 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import ProviderEntity from '@apps/providers/entity/provider.entity';
 import { FIELD_TYPE } from '@utils/enum/field.enum';
+import { PageEntity } from './page.entity';
 
 @Entity({ name: 'settings' })
-export default class SettingEntity extends BaseEntity {
+export class PageMetadataEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -53,7 +53,7 @@ export default class SettingEntity extends BaseEntity {
   deleted_at: Date;
 
   // Relation
-  @ManyToOne(() => ProviderEntity)
+  @ManyToOne(() => PageEntity)
   @JoinColumn()
-  provider: ProviderEntity;
+  page: PageEntity;
 }

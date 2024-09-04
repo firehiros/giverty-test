@@ -11,28 +11,13 @@ import { Repository } from 'typeorm';
 
 // Source
 import { LIMIT_PAGE } from '@config/constants';
-import { Pagination, encryptPassword } from '@utils/index';
+import { Pagination, encryptPassword, StringUtil } from '@utils/index';
+import { MESSAGES, USER_ERROR } from '@messages/index';
 
 // Entity
 import { User } from './entities/user.entity';
-// import { Language } from './entities/language.entity';
-
-// Services
-
-// DTO
-import { SignInDto } from '../auth/dto/signin.dto';
-import { SendMailDto } from './dto/send-mail.dto';
-import { ChangeEmailDto } from './dto/change-email.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { SignUpDto } from '../auth/dto/signup.dto';
 
-// Share
-import { StringUtil } from '@utils/index';
-
-import { LanguageData } from './data/language';
-import { USER_ERROR } from '@messages/user';
 import { QueryTransactionDto } from './dto/query-users.dto';
 import * as SampleData from '../../../test/data/users.json';
 
@@ -73,7 +58,7 @@ export class UserService implements OnModuleInit {
         });
       }
 
-      query.orderBy('users.createdAt', 'DESC');
+      query.orderBy('users.id', 'ASC');
       query.take(LIMIT_PAGE);
       query.skip(skip);
 
@@ -111,6 +96,7 @@ export class UserService implements OnModuleInit {
   async create(dto: CreateUserDto) {
     try {
       const { email } = dto;
+
       // check valid email
       if (!StringUtil.isValidEmail(email))
         throw new HttpException(
@@ -128,30 +114,47 @@ export class UserService implements OnModuleInit {
 
       const encryptedPassword = await encryptPassword(dto.password);
 
-      const newUser = this.userRepo.create({
-        email,
+      this.userRepo.save({
+        ...dto,
         password: encryptedPassword,
       });
 
-      return 'Success';
+      return {
+        message: 'Success',
+      };
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async update(id: string, param: any) {
-    const result = await this.userRepo.save({
-      id,
-      ...param,
-    });
-    return result;
+    try {
+      const userFound = await this.userRepo.findOneBy({ id });
+
+      if (!userFound)
+        throw new HttpException(
+          USER_ERROR.USER_NOT_FOUND,
+          HttpStatus.BAD_REQUEST,
+        );
+
+      await this.userRepo.save({
+        id,
+        ...param,
+      });
+
+      return {
+        message: MESSAGES.SUCCESS,
+      };
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   async remove(id: string) {
     try {
       return await this.userRepo.softDelete(id);
     } catch (e) {
-      throw new HttpException('error', HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 

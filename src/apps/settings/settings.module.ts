@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 // Source
 import SettingEntity from './entity/index.entity';
-import MainService from './service';
-import MainController from './controller';
+import MainService from './settings.service';
+import MainController from './settings.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SettingEntity])],

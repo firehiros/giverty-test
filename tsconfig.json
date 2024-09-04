@@ -20,7 +20,8 @@
       "@guards/*": ["src/guards/*"],
       "@decorators/*": ["src/decorators/*"],
       "@services/*": ["src/services/*"],
-      "@messages/*": ["src/messages/*"]
+      "@messages/*": ["src/messages/*"],
+      "@strategies/*": ["src/strategies/*"]
     }
   }
 }

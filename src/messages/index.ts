@@ -9,13 +9,6 @@ export const MESSAGES = {
     field?: string;
     minValue?: number;
   }) => `${field} は ${minValue} 桁以上で入力してください。`,
-  MSG_004: ({
-    field = '',
-    maxValue = 0,
-  }: {
-    field?: string;
-    maxValue?: number;
-  }) => `${field} は ${maxValue} 文字以内で入力してください。`,
   MSG_006: 'Please perform man-machine certification.',
   MSG_007: 'Do you want to log out?',
   MSG_008: 'This mail address already exists',
@@ -97,6 +90,24 @@ export const MESSAGES = {
   MSG_055: 'Invalid Affiliate Team',
   MSG_056: (fieldName: string) => `${fieldName} not found.`,
   PASSWORD_UPDATED: `Password has been changed`,
+  SUCCESS: 'Success',
+  MSG_REQUIRED: (fieldName: string) => `${fieldName}は必須です。`,
+  MSG_MIN_LENGTH: ({
+    field = '',
+    minValue = 0,
+  }: {
+    field?: string;
+    minValue?: number;
+  }) => `${field} は ${minValue} 桁以上で入力してください。`,
+  MSG_MAX_LENGTH: ({
+    field = '',
+    maxValue = 0,
+  }: {
+    field?: string;
+    maxValue?: number;
+  }) => `${field} は ${maxValue} 文字以内で入力してください。`,
+
+  MSG_NOT_FOUND: (fieldName: string) => `${fieldName} not found.`,
 };
 
 export * from './user';

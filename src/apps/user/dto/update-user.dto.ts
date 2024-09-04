@@ -6,12 +6,43 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  MinLength,
+  IsDate,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { Gender, LanguageCode } from '@utils/enum';
 import { MESSAGES } from '@messages/index';
 
 export class UpdateUserDto {
+  // First Name
+  @IsNotEmpty({
+    message: 'FirstName is mandatory',
+  })
+  @IsString()
+  @MinLength(1, { message: 'FirstName must be at least 1 characters long' })
+  @MaxLength(127, { message: 'FirstName can be max 127 characters long' })
+  @Transform(({ value }) => value.trim())
+  firstName: string;
+
+  // Last Name
+  @IsNotEmpty({
+    message: 'LastName is mandatory',
+  })
+  @IsString()
+  @MinLength(1, { message: 'LastName must be at least 1 characters long' })
+  @MaxLength(127, { message: 'LastName can be max 127 characters long' })
+  @Transform(({ value }) => value.trim())
+  lastName: string;
+
+  // Date of Birth
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  dateOfBirth: Date;
+
+  @IsOptional()
+  gender: Gender;
+
   @IsString()
   @IsNotEmpty({
     message: MESSAGES.MSG_001('Country'),
@@ -19,97 +50,64 @@ export class UpdateUserDto {
   country: string;
 
   @IsOptional()
-  gender: Gender;
-
-  @MaxLength(200, {
-    message: MESSAGES.MSG_004({
-      field: 'Street',
-      maxValue: 200,
-    }),
-  })
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('Street'),
-  })
-  street: string;
-
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('Phone Code'),
-  })
-  phoneCode: string;
-
   @IsNumberString()
   @MaxLength(50, {
-    message: MESSAGES.MSG_004({
-      field: 'Phone number',
-      maxValue: 50,
-    }),
-  })
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('Phone Number'),
-  })
-  phoneNumber: string;
-
-  @IsOptional()
-  @MaxLength(200, {
-    message: MESSAGES.MSG_004({
-      field: 'District',
-      maxValue: 200,
-    }),
-  })
-  district: string;
-
-  @MaxLength(200, {
-    message: MESSAGES.MSG_004({
-      field: 'City',
-      maxValue: 200,
-    }),
-  })
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('City'),
-  })
-  city: string;
-
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('Region'),
-  })
-  region: string;
-
-  @IsOptional()
-  @Transform(({ value }) => value.trim())
-  @IsEnum(LanguageCode)
-  language: LanguageCode;
-
-  @IsNumberString()
-  @MaxLength(50, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Postcode',
       maxValue: 50,
     }),
   })
-  @IsNotEmpty({
-    message: MESSAGES.MSG_001('Postcode'),
-  })
   postcode: string;
 
-  @MaxLength(200, {
-    message: MESSAGES.MSG_004({
-      field: 'Street No',
+  @IsOptional()
+  @MaxLength(50, {
+    message: MESSAGES.MSG_MAX_LENGTH({
+      field: 'Region',
       maxValue: 200,
     }),
   })
-  @IsString()
-  @IsOptional()
-  streetNo: string;
+  region: string;
 
-  @IsString()
+  @IsOptional()
+  @MaxLength(200, {
+    message: MESSAGES.MSG_MAX_LENGTH({
+      field: 'City',
+      maxValue: 200,
+    }),
+  })
+  city: string;
+
+  @IsOptional()
+  @MaxLength(200, {
+    message: MESSAGES.MSG_MAX_LENGTH({
+      field: 'Address',
+      maxValue: 200,
+    }),
+  })
+  address: string;
+
+  @IsOptional()
+  @MaxLength(200, {
+    message: MESSAGES.MSG_MAX_LENGTH({
+      field: 'Building',
+      maxValue: 200,
+    }),
+  })
+  building: string;
+
+  @IsOptional()
+  @IsNumberString()
+  phoneCode: string;
+
+  @IsOptional()
+  @IsNumberString()
   @MaxLength(50, {
-    message: MESSAGES.MSG_004({
-      field: 'Apartment',
+    message: MESSAGES.MSG_MAX_LENGTH({
+      field: 'Phone number',
       maxValue: 50,
     }),
   })
-  @IsOptional()
-  apartment: string;
+  phoneNumber: string;
 
   @IsOptional()
   @IsNumber({}, { message: MESSAGES.MSG_002('メッセージ') })

@@ -11,23 +11,24 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 // Source
-import { LIMIT_PAGE } from '../../config/constants';
+import { MESSAGES } from '@messages/index';
+import { LIMIT_PAGE } from '@config/constants';
 import { CreateDto, UpdateDto } from './dto';
-import SettingEntity from './entity/index.entity';
+import { PageEntity } from './entity/index';
 
 // Sample Data
-import * as SampleData from '../../../test/data/settings.json';
+// import * as SampleData from '../../../test/data/settings.json';
 
 @Injectable()
 class MainService {
   constructor(
-    @InjectRepository(SettingEntity)
-    private readonly mainRepo: Repository<SettingEntity>,
+    @InjectRepository(PageEntity)
+    private readonly mainRepo: Repository<PageEntity>,
   ) {}
 
   async onModuleInit() {
     try {
-      this.mainRepo.save(SampleData as unknown as SettingEntity);
+      // this.mainRepo.save(SampleData as unknown as PageEntity);
     } catch (ex) {
       console.error(ex);
     }
@@ -39,7 +40,7 @@ class MainService {
       const skip = (page - 1) * LIMIT_PAGE;
 
       const [result, total] = await this.mainRepo.findAndCount({
-        order: { key: 'DESC' },
+        order: { created_at: 'DESC' },
         take: limit,
         skip: skip,
       });
@@ -66,8 +67,10 @@ class MainService {
 
   async create(dto: CreateDto) {
     try {
+      // await this.mainRepo.save(dto);
+
       return {
-        message: 'success',
+        message: MESSAGES.SUCCESS,
       };
     } catch (e) {
       throw new HttpException('Error', HttpStatus.BAD_REQUEST);
@@ -76,17 +79,34 @@ class MainService {
 
   async update(id: string, dto: UpdateDto) {
     try {
+      const entityFound = await this.mainRepo.findOneBy({ id });
+
+      if (!entityFound)
+        throw new HttpException(
+          MESSAGES.MSG_NOT_FOUND('Setting'),
+          HttpStatus.BAD_REQUEST,
+        );
+
+      await this.mainRepo.save({
+        id,
+        ...dto,
+      });
+
       return {
-        message: 'success',
+        message: MESSAGES.SUCCESS,
       };
-    } catch (e) {
-      throw new HttpException('error', HttpStatus.BAD_REQUEST);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async remove(id: string) {
     try {
-      return await this.mainRepo.softDelete(id);
+      await this.mainRepo.softDelete(id);
+
+      return {
+        message: MESSAGES.SUCCESS,
+      };
     } catch (e) {
       throw new HttpException('error', HttpStatus.BAD_REQUEST);
     }

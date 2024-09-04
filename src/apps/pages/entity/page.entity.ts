@@ -12,36 +12,40 @@ import {
   JoinColumn,
 } from 'typeorm';
 
+// Source
+import { PUBLISH_STATUS } from '@utils/enum/publish_status.enum';
 import ProviderEntity from '@apps/providers/entity/provider.entity';
-import { FIELD_TYPE } from '@utils/enum/field.enum';
+import { PageCategoryEntity } from '@apps/page_categories/entity';
 
-@Entity({ name: 'settings' })
-export default class SettingEntity extends BaseEntity {
+@Entity({ name: 'pages' })
+export class PageEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
-  key: string;
-
   @Column({
-    name: 'label',
     type: 'varchar',
     nullable: true,
   })
-  label: string;
+  title: string;
 
-  @Column()
-  value: string;
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  slug: string;
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  content: string;
 
   @Column({
     type: 'enum',
-    enum: FIELD_TYPE,
-    default: FIELD_TYPE.TEXT,
+    enum: PUBLISH_STATUS,
+    default: PUBLISH_STATUS.DRAFT,
   })
-  type: string;
-
-  @Column({ nullable: true })
-  description: string;
+  status: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -56,4 +60,8 @@ export default class SettingEntity extends BaseEntity {
   @ManyToOne(() => ProviderEntity)
   @JoinColumn()
   provider: ProviderEntity;
+
+  @ManyToOne(() => PageCategoryEntity)
+  @JoinColumn()
+  category: PageCategoryEntity;
 }

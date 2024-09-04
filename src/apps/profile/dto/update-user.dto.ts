@@ -33,7 +33,7 @@ export class UpdateUserDto {
     example: "St. Mark's Place",
   })
   @MaxLength(200, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Street',
       maxValue: 200,
     }),
@@ -56,7 +56,7 @@ export class UpdateUserDto {
   })
   @IsNumberString()
   @MaxLength(50, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Phone number',
       maxValue: 50,
     }),
@@ -71,7 +71,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @MaxLength(200, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'District',
       maxValue: 200,
     }),
@@ -82,7 +82,7 @@ export class UpdateUserDto {
     example: 'NewYork',
   })
   @MaxLength(200, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'City',
       maxValue: 200,
     }),
@@ -113,7 +113,7 @@ export class UpdateUserDto {
   })
   @IsNumberString()
   @MaxLength(50, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Postcode',
       maxValue: 50,
     }),
@@ -127,7 +127,7 @@ export class UpdateUserDto {
     example: '34 наслаждайся моментом',
   })
   @MaxLength(200, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Street No',
       maxValue: 200,
     }),
@@ -141,7 +141,7 @@ export class UpdateUserDto {
   })
   @IsString()
   @MaxLength(50, {
-    message: MESSAGES.MSG_004({
+    message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Apartment',
       maxValue: 50,
     }),

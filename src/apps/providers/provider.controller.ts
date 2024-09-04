@@ -11,7 +11,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-import ProviderService from './service';
+import ProviderService from './provider.service';
 
 @Controller('providers')
 export default class MainController {

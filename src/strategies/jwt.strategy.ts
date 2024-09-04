@@ -7,17 +7,14 @@ import { Request } from 'express';
 // Source
 import { JWT_CONFIG } from '@config/constants';
 // import { RedisService } from '@services/redis/redis.service';
-import { REDIS_PREFIX } from '../auth.constant';
+// import { REDIS_PREFIX } from '../auth.constant';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        JwtStrategy.extractJWT,
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ]),
-      ignoreExpiration: false,
+      jwtFromRequest: ExtractJwt.fromExtractors([JwtStrategy.extractJWT]),
+      ignoreExpiration: true,
       secretOrKey: JWT_CONFIG.secret,
     });
   }
@@ -29,6 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
+
   private static extractJWT(request: Request): string | null {
     if (
       request.cookies &&

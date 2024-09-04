@@ -22,8 +22,6 @@ import { UserService } from './user.service';
 
 // DTO
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ChangeEmailDto } from './dto/change-email.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import { QueryTransactionDto } from './dto/query-users.dto';
 
 // Entities:

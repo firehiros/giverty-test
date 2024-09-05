@@ -11,24 +11,22 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 
 // Source
-import { MESSAGES } from '@messages/index';
-import { LIMIT_PAGE } from '@config/constants';
+import { LIMIT_PAGE } from '../../config/constants';
 import { CreateDto, UpdateDto } from './dto';
-import { PageEntity } from './entity/index';
+import { PageTagEntity } from './entity/page_tags.entity';
 
 // Sample Data
-// import * as SampleData from '../../../test/data/settings.json';
+import { MESSAGES } from '@messages/index';
 
 @Injectable()
 class MainService {
   constructor(
-    @InjectRepository(PageEntity)
-    private readonly mainRepo: Repository<PageEntity>,
+    @InjectRepository(PageTagEntity)
+    private readonly mainRepo: Repository<PageTagEntity>,
   ) {}
 
   async onModuleInit() {
     try {
-      // this.mainRepo.save(SampleData as unknown as PageEntity);
     } catch (ex) {
       console.error(ex);
     }
@@ -40,7 +38,7 @@ class MainService {
       const skip = (page - 1) * LIMIT_PAGE;
 
       const [result, total] = await this.mainRepo.findAndCount({
-        order: { created_at: 'DESC' },
+        order: { name: 'ASC' },
         take: limit,
         skip: skip,
       });
@@ -83,7 +81,7 @@ class MainService {
 
       if (!entityFound)
         throw new HttpException(
-          MESSAGES.MSG_NOT_FOUND('Setting'),
+          MESSAGES.MSG_NOT_FOUND('Page Tags'),
           HttpStatus.BAD_REQUEST,
         );
 
@@ -104,16 +102,6 @@ class MainService {
     try {
       await this.mainRepo.softDelete(id);
 
-      return {
-        message: MESSAGES.SUCCESS,
-      };
-    } catch (e) {
-      throw new HttpException('error', HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  async options() {
-    try {
       return {
         message: MESSAGES.SUCCESS,
       };

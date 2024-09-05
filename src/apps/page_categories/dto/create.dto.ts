@@ -5,60 +5,34 @@ import { MESSAGES } from '@messages/index';
 export class CreateDto {
   @IsString()
   @IsNotEmpty({
-    message: MESSAGES.MSG_001('Key'),
+    message: MESSAGES.MSG_001('Name'),
   })
   @MaxLength(255, {
     message: MESSAGES.MSG_MAX_LENGTH({
-      field: 'Key',
+      field: 'Name',
       maxValue: 255,
     }),
   })
   @Transform(({ value }) => value.trim())
-  key: string;
+  name: string;
 
   @IsString()
   @MaxLength(255, {
     message: MESSAGES.MSG_MAX_LENGTH({
-      field: 'Key',
+      field: 'Slug',
       maxValue: 255,
     }),
   })
   @Transform(({ value }) => value.trim())
-  label: string;
+  slug: string;
 
   @IsString()
-  @IsNotEmpty({
-    message: MESSAGES.MSG_REQUIRED('Value'),
-  })
-  @MaxLength(255, {
-    message: MESSAGES.MSG_MAX_LENGTH({
-      field: 'Key',
-      maxValue: 255,
-    }),
-  })
-  @Transform(({ value }) => value.trim())
-  value: string;
-
-  @IsString()
-  @MaxLength(255, {
+  @MaxLength(1000, {
     message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Description',
-      maxValue: 255,
+      maxValue: 1000,
     }),
   })
   @Transform(({ value }) => value.trim())
   description: string;
-
-  @IsString()
-  @IsNotEmpty({
-    message: MESSAGES.MSG_REQUIRED('Type'),
-  })
-  @MaxLength(255, {
-    message: MESSAGES.MSG_MAX_LENGTH({
-      field: 'Type',
-      maxValue: 255,
-    }),
-  })
-  @Transform(({ value }) => value.trim())
-  type: string;
 }

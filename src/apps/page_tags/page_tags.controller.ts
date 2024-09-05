@@ -12,9 +12,9 @@ import {
 } from '@nestjs/common';
 
 // Source
-import MainService from './pages.service';
+import MainService from './page_tags.service';
 
-@Controller('pages')
+@Controller('pages/tags')
 class MainController {
   constructor(private readonly service: MainService) {}
 
@@ -40,17 +40,10 @@ class MainController {
   update(@Param('id') id: string, @Body() dto) {
     return this.service.update(id, dto);
   }
-
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   remove(@Param('id') id: string) {
     return this.service.remove(id);
-  }
-
-  @Get('options')
-  @HttpCode(HttpStatus.OK)
-  options() {
-    return this.service.options();
   }
 }
 

@@ -12,6 +12,7 @@ import SettingModule from '@apps/settings/settings.module';
 import ServiceModule from '@apps/services/module';
 import TestimonialModule from '@apps/testimonials/module';
 import PageCategoriesModule from '@apps/page_categories/page_categories.module';
+import PageTagsModule from '@apps/page_tags/page_tags.module';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import PageCategoriesModule from '@apps/page_categories/page_categories.module';
     ServiceModule,
     TestimonialModule,
     PageCategoriesModule,
-    // SystemConfigModule,
+    PageTagsModule,
   ],
   controllers: [],
   providers: [],

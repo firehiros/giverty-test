@@ -10,12 +10,14 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   JoinColumn,
+  JoinTable,
 } from 'typeorm';
 
 // Source
 import { PUBLISH_STATUS } from '@utils/enum/publish_status.enum';
 import ProviderEntity from '@apps/providers/entity/provider.entity';
 import { PageCategoryEntity } from '@apps/page_categories/entity';
+import { PageTagEntity } from '@apps/page_tags/entity';
 
 @Entity({ name: 'pages' })
 export class PageEntity extends BaseEntity {
@@ -24,7 +26,6 @@ export class PageEntity extends BaseEntity {
 
   @Column({
     type: 'varchar',
-    nullable: true,
   })
   title: string;
 
@@ -61,7 +62,11 @@ export class PageEntity extends BaseEntity {
   @JoinColumn()
   provider: ProviderEntity;
 
-  @ManyToOne(() => PageCategoryEntity)
-  @JoinColumn()
-  category: PageCategoryEntity;
+  @ManyToMany(() => PageCategoryEntity)
+  @JoinTable()
+  categories: PageCategoryEntity[];
+
+  @ManyToMany(() => PageTagEntity)
+  @JoinTable()
+  tags: PageTagEntity[];
 }

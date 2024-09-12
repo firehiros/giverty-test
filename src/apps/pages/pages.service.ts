@@ -13,8 +13,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 // Source
 import { MESSAGES } from '@messages/index';
 import { LIMIT_PAGE } from '@config/constants';
+import { PageCategoryEntity } from '@apps/page_categories/entity';
+import { PageTagEntity } from '@apps/page_tags/entity';
 import { CreateDto, UpdateDto } from './dto';
 import { PageEntity } from './entity/index';
+import { LanguageEntity } from '@apps/languages/entity';
 
 // Sample Data
 // import * as SampleData from '../../../test/data/settings.json';
@@ -24,6 +27,10 @@ class MainService {
   constructor(
     @InjectRepository(PageEntity)
     private readonly mainRepo: Repository<PageEntity>,
+    @InjectRepository(PageCategoryEntity)
+    private readonly categoryRepo: Repository<PageCategoryEntity>,
+    @InjectRepository(LanguageEntity)
+    private readonly langRepo: Repository<LanguageEntity>,
   ) {}
 
   async onModuleInit() {
@@ -53,15 +60,26 @@ class MainService {
         totalItem: total,
       };
     } catch (e) {
-      throw new HttpException('Error:' + e.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async findOne(id: string) {
     try {
-      return await this.mainRepo.findOne({ where: { id } });
+      const result = await this.mainRepo.findOne({
+        where: { id },
+        relations: {
+          category: true,
+          metadata: true,
+        },
+      });
+
+      return {
+        data: result,
+        message: MESSAGES.SUCCESS,
+      };
     } catch (e) {
-      throw new HttpException('Error', HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -73,7 +91,7 @@ class MainService {
         message: MESSAGES.SUCCESS,
       };
     } catch (e) {
-      throw new HttpException('Error', HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -108,17 +126,39 @@ class MainService {
         message: MESSAGES.SUCCESS,
       };
     } catch (e) {
-      throw new HttpException('error', HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async options() {
     try {
+      const categories = await this.categoryRepo.find({
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+
+      const languages = await this.langRepo.find({
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+
       return {
+        data: {
+          categories: categories.map((item) => {
+            return { value: item.id, label: item.name };
+          }),
+          languages: languages.map((item) => {
+            return { value: item.id, label: item.name };
+          }),
+        },
         message: MESSAGES.SUCCESS,
       };
     } catch (e) {
-      throw new HttpException('error', HttpStatus.BAD_REQUEST);
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 }

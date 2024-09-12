@@ -13,9 +13,9 @@ import {
 } from 'typeorm';
 
 import { FIELD_TYPE } from '@utils/enum/field.enum';
-import { PageEntity } from './page.entity';
+import { PageEntity } from '../../pages/entity/page.entity';
 
-@Entity({ name: 'settings' })
+@Entity({ name: 'page_metadatas' })
 export class PageMetadataEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -48,9 +48,6 @@ export class PageMetadataEntity extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at: Date;
 
   // Relation
   @ManyToOne(() => PageEntity)

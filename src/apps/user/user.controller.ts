@@ -25,7 +25,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryTransactionDto } from './dto/query-users.dto';
 
 // Entities:
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 // Share
 import { CreateUserDto } from './dto/create-user.dto';

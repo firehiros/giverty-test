@@ -16,7 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 // Resource
 import { GetUser } from '@decorators/index';
-import { User } from '@apps/user/entities/user.entity';
+import { UserEntity } from '@apps/user/entities/user.entity';
 
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
@@ -33,7 +33,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @UseGuards(AuthGuard('basic'))
-  login(@GetUser() user: User, @Res({ passthrough: true }) response: Response) {
+  login(
+    @GetUser() user: UserEntity,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     return this.authService.login(user, response);
   }
 

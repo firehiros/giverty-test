@@ -7,9 +7,10 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
+import { PageDirection } from '@utils/enum';
 
-@Entity({ name: 'page_categories' })
-export class PageCategoryEntity extends BaseEntity {
+@Entity({ name: 'languages' })
+export class LanguageEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,13 +25,20 @@ export class PageCategoryEntity extends BaseEntity {
     nullable: true,
     unique: true,
   })
-  slug: string;
+  code: string;
 
   @Column({
-    type: 'text',
-    nullable: true,
+    type: 'boolean',
+    default: false,
   })
-  description: string;
+  is_default: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: PageDirection,
+    default: PageDirection.LTR,
+  })
+  direction: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -40,6 +48,4 @@ export class PageCategoryEntity extends BaseEntity {
 
   @DeleteDateColumn()
   deleted_at: Date;
-
-  // Relation
 }

@@ -1,2 +1,2 @@
 export * from './gender.enum';
-export * from './language.enum';
+export * from './page_direction.enum';

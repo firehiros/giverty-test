@@ -25,7 +25,7 @@ import { SignInDto } from './dto/signin.dto';
 // import { RedisService } from '../share/services/redis/redis.service';
 // import { IUserPayload } from '@share/common/app.interface';
 // import { TwoFactorService } from '@share/services/two-factor/2fa.service';
-import { User } from '../user/entities/user.entity';
+import { UserEntity } from '../user/entities/user.entity';
 // import {
 //   EMAIL_TITLE,
 //   FORGOT_PASSWORD_LINK_JWT_EXPIRATION_MINUTES,
@@ -49,12 +49,12 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
     // private readonly redisService: RedisService,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
     private readonly twoFactorService: TwoFactorService,
   ) {}
 
-  async login(user: User, response: Response): Promise<Partial<any>> {
+  async login(user: UserEntity, response: Response): Promise<Partial<any>> {
     try {
       // Check recaptcha validate
       // const recaptchaService = new RecaptchaService(dto.recaptchaResponse);
@@ -213,7 +213,7 @@ export class AuthService {
   //   return this.userService.createUser(signUpDto);
   // }
 
-  async signPayload(payload: User): Promise<string> {
+  async signPayload(payload: UserEntity): Promise<string> {
     try {
       const token = this.jwtService.sign(payload);
       // const decoded: any = this.jwtService.decode(token);

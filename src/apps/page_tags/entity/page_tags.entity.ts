@@ -22,6 +22,7 @@ export class PageTagEntity extends BaseEntity {
   @Column({
     type: 'varchar',
     nullable: true,
+    unique: true,
   })
   slug: string;
 

@@ -15,7 +15,7 @@ import { Pagination, encryptPassword, StringUtil } from '@utils/index';
 import { MESSAGES, USER_ERROR } from '@messages/index';
 
 // Entity
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
 import { QueryTransactionDto } from './dto/query-users.dto';
@@ -24,20 +24,20 @@ import * as SampleData from '../../../test/data/users.json';
 @Injectable()
 export class UserService implements OnModuleInit {
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
     // @InjectRepository(Language)
     // private readonly languageRepository: Repository<Language>,
   ) {}
 
   async onModuleInit() {
     try {
-      this.userRepo.save(SampleData as unknown as User);
+      this.userRepo.save(SampleData as unknown as UserEntity);
     } catch (ex) {
       console.error(ex);
     }
   }
 
-  async list(dto: QueryTransactionDto): Promise<Pagination<User[]>> {
+  async list(dto: QueryTransactionDto): Promise<Pagination<UserEntity[]>> {
     try {
       const { page = 1, search } = dto;
       const skip = (page - 1) * LIMIT_PAGE;
@@ -66,7 +66,7 @@ export class UserService implements OnModuleInit {
       const total = await query.getCount();
 
       return {
-        data: transactions.map((user: User) => {
+        data: transactions.map((user: UserEntity) => {
           return {
             id: user.id,
             email: user.email,
@@ -74,7 +74,7 @@ export class UserService implements OnModuleInit {
             lastName: user.lastName,
             createdAt: user.createdAt,
           };
-        }) as User[],
+        }) as UserEntity[],
         page,
         pageSize: LIMIT_PAGE,
         totalPage: Math.ceil(total / LIMIT_PAGE),
@@ -159,7 +159,7 @@ export class UserService implements OnModuleInit {
   }
 
   // Custom Method
-  async findUserByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<UserEntity> {
     return this.userRepo.findOneBy({ email });
   }
 }

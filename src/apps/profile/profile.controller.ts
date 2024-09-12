@@ -25,7 +25,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
 // Entities:
-import { User } from '../user/entities/user.entity';
+import { UserEntity } from '../user/entities/user.entity';
 
 // Share
 import { Pagination } from '@utils/interfaces';
@@ -38,20 +38,20 @@ export class ProfileController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async get(@GetUser() user: User) {
+  async get(@GetUser() user: UserEntity) {
     return this.profileService.find(user);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch()
-  async update(@GetUser() user: User, @Body() updateData: UpdateUserDto) {
+  async update(@GetUser() user: UserEntity, @Body() updateData: UpdateUserDto) {
     return this.profileService.update(user.id, updateData);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Put('change-password')
   async changePassword(
-    @GetUser() user: User,
+    @GetUser() user: UserEntity,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
     return this.profileService.changePassword(user.id, changePasswordDto);

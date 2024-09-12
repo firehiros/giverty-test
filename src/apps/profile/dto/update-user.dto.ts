@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
   MaxLength,
@@ -9,29 +8,19 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { Gender, LanguageCode } from '@utils/enum';
+import { Gender } from '@utils/enum';
 import { MESSAGES } from '@messages/index';
 
 export class UpdateUserDto {
-  @ApiProperty({
-    example: 'America',
-  })
   @IsString()
   @IsNotEmpty({
     message: MESSAGES.MSG_001('Country'),
   })
   country: string;
 
-  @ApiProperty({
-    example: Gender.MALE,
-    enum: Gender,
-  })
   @IsOptional()
   gender: Gender;
 
-  @ApiProperty({
-    example: "St. Mark's Place",
-  })
   @MaxLength(200, {
     message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Street',
@@ -43,17 +32,11 @@ export class UpdateUserDto {
   })
   street: string;
 
-  @ApiProperty({
-    example: '84',
-  })
   @IsNotEmpty({
     message: MESSAGES.MSG_001('Phone Code'),
   })
   phoneCode: string;
 
-  @ApiProperty({
-    example: '0877483744',
-  })
   @IsNumberString()
   @MaxLength(50, {
     message: MESSAGES.MSG_MAX_LENGTH({
@@ -66,9 +49,6 @@ export class UpdateUserDto {
   })
   phoneNumber: string;
 
-  @ApiProperty({
-    example: 'Manhattan',
-  })
   @IsOptional()
   @MaxLength(200, {
     message: MESSAGES.MSG_MAX_LENGTH({
@@ -78,9 +58,6 @@ export class UpdateUserDto {
   })
   district: string;
 
-  @ApiProperty({
-    example: 'NewYork',
-  })
   @MaxLength(200, {
     message: MESSAGES.MSG_MAX_LENGTH({
       field: 'City',
@@ -92,25 +69,11 @@ export class UpdateUserDto {
   })
   city: string;
 
-  @ApiProperty({
-    example: 'east–west Mohawk River Valley',
-  })
   @IsNotEmpty({
     message: MESSAGES.MSG_001('Region'),
   })
   region: string;
 
-  @ApiProperty({
-    example: 'vi',
-  })
-  @IsOptional()
-  @Transform(({ value }) => value.trim())
-  @IsEnum(LanguageCode)
-  language: LanguageCode;
-
-  @ApiProperty({
-    example: '09988',
-  })
   @IsNumberString()
   @MaxLength(50, {
     message: MESSAGES.MSG_MAX_LENGTH({
@@ -123,9 +86,6 @@ export class UpdateUserDto {
   })
   postcode: string;
 
-  @ApiProperty({
-    example: '34 наслаждайся моментом',
-  })
   @MaxLength(200, {
     message: MESSAGES.MSG_MAX_LENGTH({
       field: 'Street No',
@@ -136,9 +96,6 @@ export class UpdateUserDto {
   @IsOptional()
   streetNo: string;
 
-  @ApiProperty({
-    example: "St. Mark's Place",
-  })
   @IsString()
   @MaxLength(50, {
     message: MESSAGES.MSG_MAX_LENGTH({
@@ -149,7 +106,6 @@ export class UpdateUserDto {
   @IsOptional()
   apartment: string;
 
-  @ApiProperty()
   @IsOptional()
   @IsNumber({}, { message: MESSAGES.MSG_002('メッセージ') })
   @Transform(({ value }) => Number(value))

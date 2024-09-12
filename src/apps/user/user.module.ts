@@ -10,7 +10,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
 // Entities
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 
 // Modules
 
@@ -21,7 +21,7 @@ import { EXPIRED_TIME } from './user.constant';
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
       secret: JWT_CONFIG.secret,
       signOptions: {

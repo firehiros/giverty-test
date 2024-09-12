@@ -7,7 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 // Resource
 import { JWT_CONFIG, LOGIN_EXPIRED_MINUTES } from '@config/constants';
 import { TwoFactorService } from '@services/two-factor/2fa.service';
-import { User } from '@apps/user/entities/user.entity';
+import { UserEntity } from '@apps/user/entities/user.entity';
 import { JwtStrategy } from '@strategies/jwt.strategy';
 
 import { ProfileController } from './profile.controller';
@@ -16,7 +16,7 @@ import { ProfileService } from './profile.service';
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([UserEntity]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: JWT_CONFIG.secret,

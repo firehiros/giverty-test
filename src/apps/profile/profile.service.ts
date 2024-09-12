@@ -16,7 +16,7 @@ import { encryptPassword, isPasswordMatch } from '@utils/index';
 import { TwoFaDto } from '@apps/auth/dto/two-fa.dto';
 import { TwoFactorService } from '@services/two-factor/2fa.service';
 import { MESSAGES, USER_ERROR, EMAIL_TITLE } from '@messages/index';
-import { User } from '@apps/user/entities/user.entity';
+import { UserEntity } from '@apps/user/entities/user.entity';
 
 // Services
 // import {
@@ -35,7 +35,8 @@ import { SignUpDto } from '../auth/dto/signup.dto';
 @Injectable()
 export class ProfileService implements OnModuleInit {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
     // private readonly sendEmailService: SendEmailService,
     // private readonly jwtService: JwtService,
     // @InjectRepository(Language)
@@ -47,7 +48,7 @@ export class ProfileService implements OnModuleInit {
 
   async onModuleInit() {}
 
-  private serialize(user: User): Partial<User> {
+  private serialize(user: UserEntity): Partial<UserEntity> {
     return {
       id: user.id,
       email: user.email,
@@ -66,7 +67,7 @@ export class ProfileService implements OnModuleInit {
     };
   }
 
-  async find(user: User) {
+  async find(user: UserEntity) {
     try {
       const userFound = await this.userRepository.findOneBy({ id: user.id });
 
@@ -159,7 +160,7 @@ export class ProfileService implements OnModuleInit {
     }
   }
 
-  verifyTwoFa(user: User, dto: TwoFaDto) {
+  verifyTwoFa(user: UserEntity, dto: TwoFaDto) {
     try {
       const isValid = this.twoFactorService.verifyOTPToken({
         token: dto.otpToken.toString(),

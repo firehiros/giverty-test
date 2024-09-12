@@ -10,7 +10,7 @@ import {
   IsDate,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { Gender, LanguageCode } from '@utils/enum';
+import { Gender } from '@utils/enum';
 import { MESSAGES } from '@messages/index';
 
 export class UpdateUserDto {

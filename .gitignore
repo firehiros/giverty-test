@@ -398,6 +398,7 @@ Temporary Items
 dist
 .webpack
 .serverless/**/*.zip
-test/data
+test/*
+!test/data
 package-lock.json
 pgdata

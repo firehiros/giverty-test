@@ -1,12 +1,13 @@
 import { config } from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RecipeEntity } from '@apps/entities/giverty.entity';
 
 config();
 
 export const typeOrmConfig: TypeOrmModule = {
   type: 'sqlite',
-  database: '.db',
-  entities: [`${__dirname}/../../**/*.entity.{js,ts}`],
+  database: 'database.sqlite',
+  entities: [RecipeEntity],
   synchronize: true,
   logging: true,
 };

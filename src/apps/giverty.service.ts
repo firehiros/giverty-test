@@ -9,12 +9,12 @@ import { Repository } from 'typeorm';
 
 // Entity
 import { RecipeEntity } from './entities/giverty.entity';
-import { ApiResponse } from '@utils/type';
 
 @Injectable()
 export class GivertyService implements OnModuleInit {
   constructor(
-    @InjectRepository(RecipeEntity) private recipeRepo: Repository<RecipeEntity>,
+    @InjectRepository(RecipeEntity)
+    private recipeRepo: Repository<RecipeEntity>,
   ) {}
 
   async onModuleInit() {
@@ -42,19 +42,15 @@ export class GivertyService implements OnModuleInit {
         }]
       };
     } catch (e) {
-      const error = {
+      return {
         message: 'Recipe creation failed!',
         required: 'title, making_time, serves, ingredients, cost'
       }
-
-      return error
-      // throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async list() {
     try {
-
       const query = this.recipeRepo.createQueryBuilder('recipes');
 
       query.select([
@@ -66,7 +62,7 @@ export class GivertyService implements OnModuleInit {
         'recipes.cost',
       ]);
 
-      query.orderBy('users.id', 'ASC');
+      query.orderBy('recipes.id', 'ASC');
 
       const transactions = await query.getMany();
 
@@ -83,13 +79,23 @@ export class GivertyService implements OnModuleInit {
         }) as RecipeEntity[],
       };
     } catch (e) {
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: "Bad Request"
+      }, HttpStatus.BAD_REQUEST);
     }
   }
 
   async find(id: number) {
     try {
-      const recipe = await this.recipeRepo.findOne({ where: { id } })
+      const recipe = await this.recipeRepo.findOneBy({ id })
+
+      if (!recipe)
+        throw new HttpException(
+          {
+            message: "No recipe found"
+          },
+          HttpStatus.BAD_REQUEST,
+        );
 
       return {
         message: "Recipe details by id",
@@ -103,7 +109,9 @@ export class GivertyService implements OnModuleInit {
         }]
       };
     } catch (e) {
-      throw new HttpException('Error', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: "Bad Request"
+      }, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -113,7 +121,7 @@ export class GivertyService implements OnModuleInit {
 
       if (!isFound)
         throw new HttpException(
-          "No recipe found",
+          {message: "No recipe found" },
           HttpStatus.BAD_REQUEST,
         );
 
@@ -133,8 +141,10 @@ export class GivertyService implements OnModuleInit {
           cost: recipe.cost,
         }]
       };
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+    } catch (e: any) {
+      throw new HttpException({
+        message: "Recipe update failed"
+      }, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -153,7 +163,7 @@ export class GivertyService implements OnModuleInit {
       return {
         message: "Recipe successfully removed!"
       }
-    } catch (e) {
+    } catch (e: any) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }

@@ -14,41 +14,31 @@ export class RecipeEntity extends BaseEntity {
 
   @Column({
     name: 'title',
-    type: 'varchar',
-    length: 100,
-    nullable: false,
+    type: 'varchar'
   })
   title: string;
 
   @Column({
     name: 'making_time',
-    type: 'varchar',
-    length: 100,
-    nullable: false,
+    type: 'varchar'
   })
   making_time: string;
 
   @Column({
     name: 'serves',
-    type: 'varchar',
-    length: 100,
-    nullable: false,
+    type: 'varchar'
   })
   serves: string;
 
   @Column({
     name: 'ingredients',
-    type: 'varchar',
-    length: 100,
-    nullable: false,
+    type: 'varchar'
   })
   ingredients: string;
 
   @Column({
     name: 'cost',
-    type: 'integer',
-    length: 100,
-    nullable: false,
+    type: 'integer'
   })
   cost: string;
 

@@ -26,6 +26,11 @@ export class GivertyService implements OnModuleInit {
 
   async create(dto: any) {
     try {
+
+      if (!dto.title || !dto.making_time || !dto.serves || !dto.ingredients || !dto.cost) {
+        throw Error()
+      }
+      
       const recipe = await this.recipeRepo.save({
         ...dto,
       });
@@ -88,7 +93,7 @@ export class GivertyService implements OnModuleInit {
   async find(id: number) {
     try {
       const recipe = await this.recipeRepo.findOneBy({ id })
-
+      
       if (!recipe)
         throw new HttpException(
           {
@@ -117,18 +122,17 @@ export class GivertyService implements OnModuleInit {
 
   async update(id: number, param: any) {
     try {
-      const isFound = await this.recipeRepo.findOneBy({ id });
+      const foundRecipe = await this.recipeRepo.findOneBy({ id });
 
-      if (!isFound)
+      if (!foundRecipe)
         throw new HttpException(
           {message: "No recipe found" },
           HttpStatus.BAD_REQUEST,
         );
 
-      const recipe = await this.recipeRepo.save({
-        id,
-        ...param,
-      });
+      const updatedRecipe = Object.assign(foundRecipe, param);
+
+      const recipe = await this.recipeRepo.save(updatedRecipe);
 
       return {
         message: "Recipe successfully updated!",

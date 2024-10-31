@@ -402,3 +402,4 @@ test/*
 !test/data
 package-lock.json
 pgdata
+.db
